@@ -7,27 +7,22 @@ manager_queue = None
 usb_queue = None
 lcd_queue = None
 
+
 class USB:
-    global settings
-    global manager
 
-    def usb_init(self):
-        return settings
+    def __init__(self, logger):
+        self.device = None
+        self.queue = None
+        self._lock = Lock()
+        self.event = Event()
+        self.logger = logger
+        self.init()
 
-    def usb_reader(self, usb_queue, usb_lock):
-        while True:
-            packet = usb.read()
-            manager_queue.put(packet)
-            # response = manager.unpacking(packet)
-            # usb_queue.put(response)
-
-    def usb_writer(self, usb_queue, usb_lock):
-        while True:
-            response = usb_queue.get()
-            manager_queue.put(packet)
-            # packet = manager.packing(response)
-            usb.write(packet)
-
+    def init(self):
+        with self._lock:
+            if self.device:
+                del self.device
+            self.device = None
 
 
 class LCD:
@@ -42,47 +37,38 @@ class LCD:
 
 class Manager:
     global settings
+    global lcd
+    global usb
 
     def __init__(self):
-        lcd = LCD()
-        # usb = USB()
+        # self.lcd = LCD()
+        # self.usb = USB()
+        pass
 
-    # def usb_init(self):
-    #     return settings
-    #
-    # def usb_reader(self, usb_queue, usb_lock):
-    #     while True:
-    #         packet = usb.read()
-    #         response = self.unpacking(packet)
-    #         usb_queue.put(response)
-    #
-    # def usb_writer(self, usb_queue, usb_lock):
-    #     while True:
-    #         response = usb_queue.get()
-    #         packet = self.packing(response)
-    #         usb.write(packet)
-
-    def packing_thread(self):
+    def reader_thread(self):
         while True:
+            if not usb.device:
+                usb.init()
+                continue
+            packet = usb.device.read()
+            response = self.unpacking(packet)
+            usb.queue.put(response)
 
-            usb_queue.put(response)
-
-    def unpacking_thread(self):
+    def writer_thread(self):
         while True:
-            packet = manager_queue.get()
-            response = unpack(packet)
+            response = usb.queue.get()
+            packet = self.packing(response)
+            usb.device.write(packet)
 
-            lcd_queue.put(response)
+    def packing(self, response):
+        packet = response
+        lcd.read()
+        return packet
 
-    # def packing(self, name='void'):
-    #     packet = pack(response)
-    #     lcd.read()
-    #     return packet
-    #
-    # def unpacking(self):
-    #     response = unpack(packet)
-    #     lcd.write(response)
-    #     return response
+    def unpacking(self, packet):
+        response = packet
+        lcd.write(response)
+        return response
 
     def reset_settings(self):
         return settings
