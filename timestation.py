@@ -1,22 +1,38 @@
-settings = {}
-# unpack_queue = None
-# pack_queue = None
-# usbtx_queue = None
-# usbrx_queue = None
-manager_queue = None
-usb_queue = None
-lcd_queue = None
+from threading import Thread, Lock, Event
+from queue import Queue
+from flask import Flask
+from flask_login import LoginManager, current_user, login_user, logout_user
+from flask_socketio import SocketIO
+
+from auth import User, CustomLoginManager
+
+
+class Settings:
+    def __init__(self):
+        pass
+
+    def get_config(self):
+        return settings
+
+    def save_to_file(self, func):
+        return settings
+
+    def reset_settings(self):
+        return settings
+
+    def save_settings(self):
+        return settings
 
 
 class USB:
 
-    def __init__(self, logger):
+    def __init__(self):
+        self.logger = None
         self.device = None
-        self.queue = None
-        self._lock = Lock()
+        self.queue = Queue()
+        self.lock = Lock()
         self.event = Event()
-        self.logger = logger
-        self.init()
+        self.handle = None
 
     def init(self):
         with self._lock:
@@ -28,6 +44,9 @@ class USB:
 class LCD:
     global settings
 
+    def __init__(self, settings):
+        self._settings = settings
+
     def read(self):
         return settings
 
@@ -35,17 +54,15 @@ class LCD:
         return settings
 
 
-class Manager:
+class Manager(object):
     global settings
     global lcd
     global usb
 
-    def __init__(self):
-        # self.lcd = LCD()
-        # self.usb = USB()
-        pass
+    def __init__(self, logger):
+        self.logger = logger
 
-    def reader_thread(self):
+    def usb_reader(self):
         while True:
             if not usb.device:
                 usb.init()
@@ -54,7 +71,7 @@ class Manager:
             response = self.unpacking(packet)
             usb.queue.put(response)
 
-    def writer_thread(self):
+    def usb_writer(self):
         while True:
             response = usb.queue.get()
             packet = self.packing(response)
@@ -69,12 +86,6 @@ class Manager:
         response = packet
         lcd.write(response)
         return response
-
-    def reset_settings(self):
-        return settings
-
-    def save_settings(self):
-        return settings
 
     def change_net_cfg(self, lan, ip, netmask, gateway, listen):
         return settings
@@ -100,11 +111,21 @@ class Manager:
     def set_devname(self, devname):
         return settings
 
-    def get_config(self):
-        return settings
+
+settings = Settings()
+lcd = LCD(settings=settings)
+usb = USB()
+
+app = Flask(__name__)
+socketio = SocketIO(app, async_mode=None, cookie=None, logger=False, engineio_logger=False)
+manager = Manager(app.logger)
+
+user = User(1, u"name")
+login_manager = CustomLoginManager()
+login_manager.init(app)
 
 
 if __name__ == '__main__':
-    lcd = LCD()
-    usb = USB()
-    manager = Manager()
+    login_user(user)
+    print(current_user.is_authenticated)
+    socketio.run(app, debug=False, host='0.0.0.0', port='5001')
