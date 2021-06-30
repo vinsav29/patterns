@@ -1,3 +1,4 @@
+from manager import *
 from threading import Thread, Lock, Event
 from queue import Queue
 from flask import Flask, render_template, session, request, \
@@ -8,122 +9,23 @@ from flask_socketio import SocketIO
 from auth import User, CustomLoginManager
 
 
-class Settings:
-    def __init__(self):
-        pass
-
-    def get_config(self):
-        return settings
-
-    def save_to_file(self, func):
-        return settings
-
-    def reset_settings(self):
-        return settings
-
-    def save_settings(self):
-        return settings
-
-
-class USB:
-
-    def __init__(self):
-        self.logger = None
-        self.device = None
-        self.queue = Queue()
-        self.lock = Lock()
-        self.event = Event()
-        self.handle = None
-
-    def init(self):
-        with self._lock:
-            if self.device:
-                del self.device
-            self.device = None
-
-
-class LCD:
-    global settings
-
-    def __init__(self, settings):
-        self._settings = settings
-
-    def read(self):
-        return settings
-
-    def write(self):
-        return settings
-
-
-class Manager(object):
-    global settings
-    global lcd
-    global usb
-
-    def __init__(self, logger):
-        self.logger = logger
-
-    def usb_reader(self):
-        while True:
-            if not usb.device:
-                usb.init()
-                continue
-            packet = usb.device.read()
-            response = self.unpacking(packet)
-            usb.queue.put(response)
-
-    def usb_writer(self):
-        while True:
-            response = usb.queue.get()
-            packet = self.packing(response)
-            usb.device.write(packet)
-
-    def packing(self, response):
-        packet = response
-        lcd.read()
-        return packet
-
-    def unpacking(self, packet):
-        response = packet
-        lcd.write(response)
-        return response
-
-    def change_net_cfg(self, lan, ip, netmask, gateway, listen):
-        return settings
-
-    def get_net_cfg(self):
-        return settings
-
-    def get_main(self):
-        return settings
-
-    def save_time(self, date, time):
-        return settings
-
-    def save_time_settings(self, form):
-        return settings
-
-    def save_gnss(self, form):
-        return settings
-
-    def set_lifetime(self, lifetime):
-        return settings
-
-    def set_devname(self, devname):
-        return settings
-
-
-settings = Settings()
-lcd = LCD(settings=settings)
-usb = USB()
-
 flask_app = Flask(__name__)
 socketio = SocketIO(flask_app, async_mode=None, cookie=None, logger=False, engineio_logger=False)
-manager = Manager(flask_app.logger)
+manager = Manager(logger=flask_app.logger)
 
 user = User(1, u"name")
 login_manager = CustomLoginManager()
 login_manager.init(flask_app)
+
+
+@login_manager.user_loader
+def load_user(user_id) -> type(User):
+    """
+    Callback функция, возвращает объект класса текущего пользователя в сессии
+    :param user_id: id текущего пользователя
+    :return: объект класса текущего пользователя
+    """
+    return User
 
 
 @flask_app.route("/login.html", methods=["GET", "POST"])
@@ -158,7 +60,41 @@ def reauth():
     return jsonify(data)
 
 
+@flask_app.route('/', methods=['GET', 'POST'])
+@flask_app.route('/main.html', methods=['GET', 'POST'])
+# @authenticated_only
+def main() -> str:
+    """
+    Обрабатывает запрос к веб странице основных настроек
+    :return: функция формирования шаблона веб страницы
+    """
+    print(request.form)
+    # if request.method == 'POST':
+    #
+    #     action = request.form.get('btn')
+    #     msg = None
+    #
+    #     if action == 'set_sync':
+    #         msg = manager.set_sync_source(request.form.get('sync_src'))
+    #     elif action == 'set_ext_sync':
+    #         msg = manager.set_ext_sync_source(request.form.get('ext_sync_src'))
+    #     elif action == 'save_time':
+    #         msg = manager.save_time(request.form.get('date'), request.form.get('time'))
+    #     elif action == 'save_time_settings':
+    #         msg = manager.save_time_settings(request.form.get('timejump'),
+    #                                          request.form.get('tz'),
+    #                                          request.form.get('tz_kv'),
+    #                                          request.form.get('tz_rs'), )
+    #     elif action == 'save_gnss':
+    #         msg = manager.save_gnss(request.form)
+    #
+    #     if msg:
+    #         flash_message(u"%s" % msg)
+
+    return render_template('main.html',
+                           main=manager.get_main(),
+                           header=settings.header)
+
+
 if __name__ == '__main__':
-    login_user(user)
-    print(current_user.is_authenticated)
     socketio.run(flask_app, debug=False, host='0.0.0.0', port='5001')

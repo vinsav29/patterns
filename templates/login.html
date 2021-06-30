@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+
+
+{% set active_href = "/login.html" %}
+
+{% block content %}
+<form action="{{ active_href|e }}" id="{{ active_href|e }}" method="post">
+    <script src="static/sha256.js"></script>
+    <script type="text/javascript">
+        function submitForm() {
+            var password = document.getElementById("inputPassword");
+            var hash = document.getElementById("inputHash");
+            hash.value = sha256(password.value);
+            password.value = "";
+
+            var form = document.getElementById("/login.html");
+            form.action = "/login.html";
+            form.method = "post";
+            form.submit();
+        }
+    </script>
+    <div class="content">
+        <h1>Авторизация</h1>
+        <hr noshade>
+            <div>
+                <label style="min-width: 180px">Введите пароль:</label>
+                <input type="password" id="inputPassword" name="password" autocomplete="off">
+                <input type="hidden" id="inputHash" name="hash">
+            </div>
+            <div>
+                <br>
+                <button type="submit" onclick="submitForm()">Войти в систему</button>
+                <br><br>
+            </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,225 @@
+﻿{% extends "base.html" %}
+{% set active_page = "conf" %}
+{% set active_href = "/conf.html" %}
+
+{% block content %}
+
+  <div class="content">
+  <form action="{{ active_href|e }}" id="inf" method="post">
+    <h1>Информация об устройстве</h1>
+    <hr noshade>
+    <div>
+		<label>Название</label>
+      <input type='text' name='devname' id='devname' value='{{ header.devname }}' minlength="1" maxlength="15">
+      <button type="submit" class="contentbtn" name="btn" value="rename">Переименовать</button>
+    </div>
+    <div>
+      <label>Модель</label>
+      <label class="value" >{{ config.devid }}</label>
+      </div>
+    <div>
+      <label>Серийный номер</label>
+      <label class="value" >{{ config.devsn }}</label>
+      </div>
+    <div>
+      <label>Дата производства, день/месяц/год</label>
+      <label class="value" >{{ config.devfd }}</label>
+      </div>
+    <div>
+      <label>Версия прошивки</label>
+      <label class="value" >{{ config.mcufw }}</label>
+      </div>
+    <div>
+      <label>Версия аппаратного обеспечения</label>
+      <label class="value" >{{ config.devhv }}</label>
+      </div>
+    <div>
+      <label>Время работы, дней/час/мин/сек</label>
+      <label class="value" >{{ config.uptime[0] + ' дн ' + ':'.join(config.uptime[1:4]) }}</label>
+      </div>
+    <div>
+      <label>Наработка, час/мин:</label>
+      <label class="value" >{{ ':'.join(config.optime) }}</label>
+    </div>
+    <div>
+      <br>
+      <button type="button" name="btn" value="reload_inf" onclick="window.location.reload();">Обновить</button>
+      <br><br>
+    </div>
+  </form>
+
+  <form action="{{ active_href|e }}" id="serv" method="post">
+    <h1>Настройки веб-сервера</h1>
+    <hr noshade>
+    <div>
+        <label>Таймаут бездействия, мин</label>
+        <input type="text" name="lifetime" value="{{ config.lifetime }}" >
+    </div>
+
+    <script src="static/sha256.js"></script>
+    <script type="text/javascript">
+      function refreshForm() {
+              var form = document.getElementById("inf");
+              form.action = "/conf.html";
+              form.method = "get";
+      }
+      function submitForm() {
+              var password = document.getElementById("inputPassword");
+              var new_password = document.getElementById("inputNewPassword");
+        var confirm_password = document.getElementById("inputConfirmPassword");
+
+              var form = document.getElementById("serv");
+              form.action = "/conf.html";
+              form.method = "post";
+
+        if (!password.value && !new_password.value && !new_password.value) {
+            form.submit();
+                  return;
+              }
+
+        var hash = sha256(password.value);
+        password.value = "";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/reauth",false);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("msg="+encodeURIComponent(hash));
+        if(xhr.status != 200) {
+            //error
+            return;
+        }
+
+        var data = JSON.parse(xhr.responseText)
+              if(data.pass_verify == false) {
+                  form.reset();
+                  form.submit();
+                  return;
+              }
+
+              xhr.open("POST", "/reauth",false);
+              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+              if (!new_password.value) {
+                  xhr.send("msg=null_password");
+                  form.reset();
+                  form.submit();
+                  return;
+        }
+
+              if (new_password.value != confirm_password.value) {
+                  xhr.send("msg=not_equal_passwords");
+                  form.reset();
+                  form.submit();
+                  return;
+        }
+
+        var new_hash = document.getElementById("inputHash");
+        new_hash.value = sha256(new_password.value);
+        new_password.value = "";
+        confirm_password.value = "";
+              form.submit();
+      }
+    </script>
+
+    <h2>Изменение пароля</h2>
+<!--	<hr noshade>-->
+	
+    <div>
+      <label>Старый пароль</label>
+          <input type='password' name='password' id="inputPassword" autocomplete='off' value=''>
+      </div>
+
+    <div>
+      <label>Новый пароль</label>
+          <input type='password' name='new_password' id="inputNewPassword" autocomplete='off' value=''>
+          <input type="hidden" id="inputHash" name="new_hash">
+      </div>
+
+    <div>
+		<label>Подтвердите новый пароль</label>
+        <input type='password' name='confirm_password' id="inputConfirmPassword" autocomplete='off' value=''>
+    </div>
+
+    <div>
+        <br>
+		<button type="submit" name="btn" value="save_config" onclick="submitForm()">Сохранить</button>
+        <br><br>
+    </div>
+
+    <h1>Сброс настроек</h1>
+    <hr noshade>
+    <div>
+        <h2 style="font-weight: normal">
+            Внимание! После нажатия кнопки "Сброс" произойдет возврат к заводским настройкам.
+            <br>
+            Веб-сервер будет доступен по IP-адресам 192.168.0.101 и 192.168.0.102.
+            Маска подсети 255.255.255.0.
+        </h2>
+    </div>
+
+    <div>
+        <br>
+		<button id="openModal" type="button" class="savebtn">Сброс</button>
+        <br><br>
+    </div>
+
+    <div id="myModal" class="modal" style="display: none; position: fixed;">
+
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 style="text-align: center">Вы уверены, что хотите сделать сброс к заводским настройкам?</h2>
+        <div style="margin-left: auto; margin-right: auto; max-width: 300px">
+            <button id="resetBtn" type="submit" class="savebtn" name="btn" value="reset">Сбросить</button>
+            <button id="closeModal" type="button" class="btn" name="cancel" value="cancel">Отмена</button>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+        var modal = document.getElementById("myModal");
+        var openModal = document.getElementById("openModal");
+        var closeModal = document.getElementById("closeModal");
+        var resetBtn = document.getElementById("resetBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        openModal.onclick = function() {
+          modal.style.display = "block";
+        }
+
+        closeModal.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        resetBtn.onclick = function () {
+            var form = document.getElementById("/conf.html");
+            form.action = "/conf.html";
+            form.method = "post";
+            form.submit();
+        }
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+    </script>
+    </form>
+  </div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+

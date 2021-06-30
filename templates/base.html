@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>Часовая станция</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" type="text/css" href="static/style.css">
+    </head>
+
+    {% block timescript %}
+    <script src="{{url_for('static',filename='jquery-1.12.4.min.js')}}"></script>
+    <script src="{{url_for('static',filename='socket.io.js')}}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function()
+         {
+             // send connect msg with timesocket
+            namespace = '/time';
+            var timesocket = io(namespace);
+            timesocket.on('connect', function() {
+                timesocket.emit('my_event', {data: 'I\'m connected!'});
+            });
+
+            timesocket.on('datetime_event', function(msg, cb)
+            {
+                $('#socket_time').text(msg.time).html();
+                $('#socket_date').text(msg.date).html();
+                $('#socket_synctime').text(msg.synctime).html();
+                $('#socket_syncpps').text(msg.syncpps).html();
+            });
+
+            // send connect msg with gps socket
+            namespace = '/gps';
+            // Connect to the Socket.IO server.
+            // The connection URL has the following format, relative to the current page:
+            //     http[s]://<domain>:<port>[/<namespace>]
+            var socket = io(namespace);
+
+            // Event handler for new connections.
+            // The callback function is invoked when a connection with the
+            // server is established.
+            socket.on('connect', function() {
+                socket.emit('my_event', {data: 'I\'m connected!'});
+            });
+
+         });
+    </script>
+    {% endblock %}
+
+    <body>
+    {#<form action="{{ active_href|e }}" id="{{ active_href|e }}" method="post">#}
+        <div class="header">
+            <img src="static/logo.png" alt="Eureca" width="210" height="42" >
+            <div class="header_text">
+                <span class="header_parameter">Название</span>
+                <span class="header_value" >{{ header.devname }}</span>
+            </div>
+            <div class="header_text" style="width:250px">
+                <span class="header_parameter" style="width:150px">Источник времени</span>
+                <span class="header_value" id="socket_synctime"></span>
+            </div>
+            <div class="header_text" style="width:180px">
+                <span class="header_parameter" style="width:60px">Время</span>
+                <span class="header_value" id="socket_time"></span>
+            </div>
+            <br>
+            <div class="header_text">
+                <span class="header_parameter" >Сер. номер</span>
+                <span class="header_value" >{{ header.serial }}</span>
+            </div>
+            <div class="header_text" style="width:250px">
+                <span class="header_parameter" style="width:150px">Источник сек. метки</span>
+                <span class="header_value" id="socket_syncpps"></span>
+            </div>
+            <div class="header_text" style="width:180px">
+                <span class="header_parameter" style="width:60px">Дата</span>
+                <span class="header_value" id="socket_date"></span>
+            </div>
+        </div>
+
+        {% set navigation_bar = [
+            ('/main.html', 'main', 'Основные'),
+            ('/net.html', 'net', 'Cеть'),
+            ('/stat.html', 'stat', 'Статистика ГНСС'),
+            ('/ntp.html', 'ntp', 'Служба времени'),
+            ('/journal.html', 'journal', 'Журнал'),
+            ('/conf.html', 'conf', 'Обслуживание')
+        ] -%}
+        {% set active_page = active_page|default('main') -%}
+
+        <ul id="navigation">
+        {% for href, id, caption in navigation_bar %}
+            <li{% if id == active_page %} type="active"{% endif %}>
+                <a href="{{ href|e }}">{{ caption|e }}</a>
+            </li>
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+            <li type="warning">
+                    <a  href="logout">
+                        Выход из системы
+                    </a>
+            </li>
+        {% endif %}
+        </ul>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <ul class="{{ category }}" >
+                <a style="padding-left: 16px">{{ message }}</a>
+            </ul>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}
+
+        {% endblock %}
+        {#</form>#}
+    </body>
+</html>

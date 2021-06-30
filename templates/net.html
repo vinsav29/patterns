@@ -1,0 +1,54 @@
+﻿{% extends "base.html" %}
+{% set active_page = "net" %}
+{% set active_href = "/net.html" %}
+
+{% block content %}
+<div class="content">
+    {% for lan in ('lan1', 'lan2') %}
+    <form action="{{ active_href|e }}" id="{{ lan }}" method="post">
+        <h1>Настройка ЛВС{% if lan == 'lan1' %} 1 {% else %} 2 {% endif %} </h1>
+        <hr noshade>
+        <div>
+            {% set device = net[lan] %}
+            <input name="lan" value="{{ lan }}" hidden>
+            <div>
+                <label>Статус</label>
+                <label>{% if device.status == 'UP' %}Подключено, {{ device.speed }} МБит/с {% else %} Отключено {% endif %}</label>
+            </div>
+            <div>
+                <label>MAC адрес</label>
+                <label>{{ device.mac }}</label>
+            </div>
+            <div>
+                <label>IP адрес</label>
+                <input type="text" name="ip" value="{{ device.ip }}" >
+            </div>
+            <div>
+                <label>Маска сети</label>
+                <input type="text" name="netmask" value="{{ device.netmask }}" >
+            </div>
+            <div>
+                <label>Шлюз</label>
+                <input type="text" name="gateway" value="{{ device.gateway }}" >
+            </div>
+            <div>
+                <label>Разрешить работу службы времени</label>
+{#                <input type="checkbox" name="listen" value="1" {% if device.listen == '1' %} checked {% endif %}>#}
+                  <input type="radio" id="Choice1" name="listen" value="1" {% if device.listen == '1' %} checked {% endif %}>
+                  <label for="Choice1" style="min-width: 0">Да</label>
+                  <input type="radio" id="Choice2" name="listen" value="0" {% if device.listen == '0' %} checked {% endif %}>
+                  <label for="Choice2" style="min-width: 0">Нет</label>
+            </div>
+        </div>
+        <div>
+            <br>
+            <button type="submit" name="btn" value="save_lan">Сохранить</button>
+            <br><br>
+        </div>
+    </form>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+
