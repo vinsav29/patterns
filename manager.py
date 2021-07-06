@@ -6,11 +6,11 @@ from time import gmtime, localtime, strftime, sleep, perf_counter
 from struct import *
 from threading import Thread, Lock, Event
 from queue import Queue
-# from linuxtools import *
+from linuxtools import *
 # import nmea
 # from utils import validate_ipv4, validate_mac, config_loggers
 from copy import deepcopy
-# from glcd_py.screen import *
+from glcd_py.screen import *
 import json
 from datetime import timedelta
 
@@ -139,17 +139,17 @@ class USB:
             self.device = None
 
 
-class LCD:
-    global settings
-
-    def __init__(self, settings):
-        self._settings = settings
-
-    def read(self):
-        return settings
-
-    def write(self):
-        return settings
+# class LCD:
+#     global settings
+#
+#     def __init__(self, settings):
+#         self._settings = settings
+#
+#     def read(self):
+#         return settings
+#
+#     def write(self):
+#         return settings
 
 
 settings = Settings()
@@ -213,3 +213,51 @@ class Manager(object):
 
     def set_devname(self, devname):
         return settings
+
+
+if __name__ == '__main__':
+    # lcd = StdScreen(display=None, mode=ListMode())
+    # lcd.init()
+    # if button & 0x0001:
+    #     keys.append(event + '_left')
+    # if button & 0x0002:
+    #     keys.append(event + '_up')
+    # if button & 0x0004:
+    #     keys.append(event + '_ok')
+    # if button & 0x0008:
+    #     keys.append(event + '_down')
+    # if button & 0x0010:
+    #     keys.append(event + '_right')
+    while True:
+        rising = int(input())
+        lcd.change_screen(rising=rising, falling=0, clamping=0, timers=0)     # right
+        print()
+    # lcd.change_screen(rising=0x10, falling=0, clamping=0, timers=0)     # right
+    # print()
+    # lcd.change_screen(rising=0x8, falling=0, clamping=0, timers=0)     # down
+    # print()
+    # lcd.change_screen(rising=0x4, falling=0, clamping=0, timers=0)      # ok
+    # print()
+    # lcd.change_screen(rising=0x2, falling=0, clamping=0, timers=0)     # down
+    # print()
+    # lcd.change_screen(rising=0, falling=0, clamping=1, timers=0)        # clamping left
+
+
+    # for key in ('rising_ok', 'clamping_left', 'rising_sec'):
+    #     time.sleep(0.5)
+    #     print()
+    #     print('Pressed:', key)
+    #     action = lcd.action(key)
+    #     print('action is', action)
+    #
+    #     if 'rotate' in action:
+    #         if 'main' in action:
+    #             # self._screenlist = deque([self._ms, self._ts, self._zs, self._ns1, self._ns2, self._gs, self._ss])
+    #             print('set screen to main')
+    #         elif 'left' in action:
+    #             # self._screenlist.rotate(1)
+    #             print('rotate left')
+    #         elif 'right' in action:
+    #             # self._screenlist.rotate(-1)
+    #             print('rotate right')
+    #         lcd = StdScreen(display=None, mode=ListMode())

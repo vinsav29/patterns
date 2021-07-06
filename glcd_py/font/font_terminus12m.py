@@ -1,0 +1,538 @@
+
+# font
+# filename: C:/MyProjects/ntp-server/soft/glcd-py/font/terminus12m.xml
+# name: Terminus12m
+# family: Terminus (TTF)
+# size: 12
+# bold: <value not defined>
+# italic: <value not defined>
+# included characters:  !"#$%&'()*+,-./0123456789:;<=>?ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~°ЁЂЃЊЋЌЎЏАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяё
+# antialiasing: yes
+# type: monospaced
+# encoding: UTF-16
+# unicode bom: no
+#
+# preset name: Monochrome-py
+# data block size: 8 bit(s), uint8_t
+# RLE compression enabled: no
+# conversion type: Monochrome, Edge 128
+# bits per pixel: 1
+#
+# preprocess:
+#  main scan direction: top_to_bottom
+#  line scan direction: forward
+#  inverse: yes
+#
+# Font = {
+# code : (width, heigth, bytearray(bitmap)),
+# }
+
+
+
+Terminus12m = {
+
+#character: ' '
+0x0020 : (6, 10, b'\x00\x00\x00\x00\x00\x00\x00\x00'),
+
+#character: '!'
+0x0021 : (6, 10, b'\x00\x82\x08\x20\x80\x08\x20\x00'),
+
+#character: '"'
+0x0022 : (6, 10, b'\x51\x45\x00\x00\x00\x00\x00\x00'),
+
+#character: '#'
+0x0023 : (6, 10, b'\x01\x45\x3e\x51\x4f\x94\x50\x00'),
+
+#character: '$'
+0x0024 : (6, 10, b'\x00\x87\x2a\xa1\xc2\xaa\x70\x80'),
+
+#character: '%'
+0x0025 : (6, 10, b'\x01\x2a\x94\x10\x82\x95\x48\x00'),
+
+#character: '&'
+0x0026 : (6, 10, b'\x00\x85\x14\x21\xa9\x24\x68\x00'),
+
+#character: '''
+0x0027 : (3, 10, b'\x49\x00\x00\x00'),
+
+#character: '('
+0x0028 : (6, 10, b'\x00\x42\x10\x41\x04\x08\x10\x00'),
+
+#character: ')'
+0x0029 : (6, 10, b'\x01\x02\x04\x10\x41\x08\x40\x00'),
+
+#character: '*'
+0x002a : (6, 10, b'\x00\x00\x14\x23\xe2\x14\x00\x00'),
+
+#character: '+'
+0x002b : (6, 10, b'\x00\x00\x08\x23\xe2\x08\x00\x00'),
+
+#character: ','
+0x002c : (3, 10, b'\x00\x00\x02\x50'),
+
+#character: '-'
+0x002d : (6, 10, b'\x00\x00\x00\x03\xe0\x00\x00\x00'),
+
+#character: '.'
+0x002e : (3, 10, b'\x00\x00\x02\x40'),
+
+#character: '/'
+0x002f : (6, 10, b'\x00\x20\x84\x10\x82\x10\x40\x00'),
+
+#character: '0'
+0x0030 : (6, 10, b'\x01\xc8\xa6\xab\x28\xa2\x70\x00'),
+
+#character: '1'
+0x0031 : (6, 10, b'\x00\x86\x08\x20\x82\x08\x70\x00'),
+
+#character: '2'
+0x0032 : (6, 10, b'\x01\xc8\xa2\x10\x84\x20\xf8\x00'),
+
+#character: '3'
+0x0033 : (6, 10, b'\x01\xc8\x82\x30\x20\xa2\x70\x00'),
+
+#character: '4'
+0x0034 : (6, 10, b'\x00\x21\x8a\x4a\x2f\x82\x08\x00'),
+
+#character: '5'
+0x0035 : (6, 10, b'\x03\xe8\x20\xf0\x20\xa2\x70\x00'),
+
+#character: '6'
+0x0036 : (6, 10, b'\x01\xc8\x20\xf2\x28\xa2\x70\x00'),
+
+#character: '7'
+0x0037 : (6, 10, b'\x03\xe0\x82\x10\x42\x08\x20\x00'),
+
+#character: '8'
+0x0038 : (6, 10, b'\x01\xc8\xa2\x72\x28\xa2\x70\x00'),
+
+#character: '9'
+0x0039 : (6, 10, b'\x01\xc8\xa2\x89\xe0\x82\x70\x00'),
+
+#character: ':'
+0x003a : (3, 10, b'\x00\x24\x02\x40'),
+
+#character: ';'
+0x003b : (3, 10, b'\x00\x24\x02\x50'),
+
+#character: '<'
+0x003c : (6, 10, b'\x00\x00\x84\x21\x02\x04\x08\x00'),
+
+#character: '='
+0x003d : (6, 10, b'\x00\x00\x3e\x00\x0f\x80\x00\x00'),
+
+#character: '>'
+0x003e : (6, 10, b'\x00\x04\x08\x10\x21\x08\x40\x00'),
+
+#character: '?'
+0x003f : (6, 10, b'\x01\xc8\xa2\x10\x80\x08\x20\x00'),
+
+#character: 'A'
+0x0041 : (6, 10, b'\x01\xc8\xa2\x8b\xe8\xa2\x88\x00'),
+
+#character: 'B'
+0x0042 : (6, 10, b'\x03\xc8\xa2\xf2\x28\xa2\xf0\x00'),
+
+#character: 'C'
+0x0043 : (6, 10, b'\x01\xc8\xa0\x82\x08\x22\x70\x00'),
+
+#character: 'D'
+0x0044 : (6, 10, b'\x03\x89\x22\x8a\x28\xa4\xe0\x00'),
+
+#character: 'E'
+0x0045 : (6, 10, b'\x03\xe8\x20\xf2\x08\x20\xf8\x00'),
+
+#character: 'F'
+0x0046 : (6, 10, b'\x03\xe8\x20\xf2\x08\x20\x80\x00'),
+
+#character: 'G'
+0x0047 : (6, 10, b'\x01\xc8\xa0\x82\xe8\xa2\x70\x00'),
+
+#character: 'H'
+0x0048 : (6, 10, b'\x02\x28\xa2\xfa\x28\xa2\x88\x00'),
+
+#character: 'I'
+0x0049 : (6, 10, b'\x01\xc2\x08\x20\x82\x08\x70\x00'),
+
+#character: 'J'
+0x004a : (6, 10, b'\x00\xe1\x04\x10\x49\x24\x60\x00'),
+
+#character: 'K'
+0x004b : (6, 10, b'\x02\x29\x28\xc3\x0a\x24\x88\x00'),
+
+#character: 'L'
+0x004c : (6, 10, b'\x02\x08\x20\x82\x08\x20\xf8\x00'),
+
+#character: 'M'
+0x004d : (6, 10, b'\x02\x2d\xaa\xaa\x28\xa2\x88\x00'),
+
+#character: 'N'
+0x004e : (6, 10, b'\x02\x28\xb2\xaa\x68\xa2\x88\x00'),
+
+#character: 'O'
+0x004f : (6, 10, b'\x01\xc8\xa2\x8a\x28\xa2\x70\x00'),
+
+#character: 'P'
+0x0050 : (6, 10, b'\x03\xc8\xa2\x8b\xc8\x20\x80\x00'),
+
+#character: 'Q'
+0x0051 : (6, 10, b'\x01\xc8\xa2\x8a\x28\xaa\x70\x20'),
+
+#character: 'R'
+0x0052 : (6, 10, b'\x03\xc8\xa2\x8b\xca\x24\x88\x00'),
+
+#character: 'S'
+0x0053 : (6, 10, b'\x01\xc8\xa0\x70\x20\xa2\x70\x00'),
+
+#character: 'T'
+0x0054 : (6, 10, b'\x03\xe2\x08\x20\x82\x08\x20\x00'),
+
+#character: 'U'
+0x0055 : (6, 10, b'\x02\x28\xa2\x8a\x28\xa2\x70\x00'),
+
+#character: 'V'
+0x0056 : (6, 10, b'\x02\x28\xa2\x51\x45\x08\x20\x00'),
+
+#character: 'W'
+0x0057 : (6, 10, b'\x02\x28\xa2\x8a\xaa\xb6\x88\x00'),
+
+#character: 'X'
+0x0058 : (6, 10, b'\x02\x28\x94\x20\x85\x22\x88\x00'),
+
+#character: 'Y'
+0x0059 : (6, 10, b'\x02\x28\x94\x50\x82\x08\x20\x00'),
+
+#character: 'Z'
+0x005a : (6, 10, b'\x03\xe0\x84\x21\x08\x20\xf8\x00'),
+
+#character: '['
+0x005b : (6, 10, b'\x01\xc4\x10\x41\x04\x10\x70\x00'),
+
+#character: '\'
+0x005c : (6, 10, b'\x01\x04\x08\x20\x41\x02\x08\x00'),
+
+#character: ']'
+0x005d : (6, 10, b'\x01\xc1\x04\x10\x41\x04\x70\x00'),
+
+#character: '^'
+0x005e : (6, 10, b'\x21\x48\x80\x00\x00\x00\x00\x00'),
+
+#character: '_'
+0x005f : (6, 10, b'\x00\x00\x00\x00\x00\x00\x03\xe0'),
+
+#character: '`'
+0x0060 : (6, 10, b'\x20\x00\x00\x00\x00\x00\x00\x00'),
+
+#character: 'a'
+0x0061 : (6, 10, b'\x00\x00\x1c\x09\xe8\xa2\x78\x00'),
+
+#character: 'b'
+0x0062 : (6, 10, b'\x02\x08\x3c\x8a\x28\xa2\xf0\x00'),
+
+#character: 'c'
+0x0063 : (6, 10, b'\x00\x00\x1c\x8a\x08\x22\x70\x00'),
+
+#character: 'd'
+0x0064 : (6, 10, b'\x00\x20\x9e\x8a\x28\xa2\x78\x00'),
+
+#character: 'e'
+0x0065 : (6, 10, b'\x00\x00\x1c\x8b\xe8\x22\x70\x00'),
+
+#character: 'f'
+0x0066 : (6, 10, b'\x00\x62\x1c\x20\x82\x08\x20\x00'),
+
+#character: 'g'
+0x0067 : (6, 10, b'\x00\x00\x1e\x8a\x28\x9e\x09\xc0'),
+
+#character: 'h'
+0x0068 : (6, 10, b'\x02\x08\x3c\x8a\x28\xa2\x88\x00'),
+
+#character: 'i'
+0x0069 : (6, 10, b'\x20\x80\x18\x20\x82\x08\x70\x00'),
+
+#character: 'j'
+0x006a : (6, 10, b'\x08\x20\x06\x08\x20\x82\x48\xc0'),
+
+#character: 'k'
+0x006b : (6, 10, b'\x01\x04\x12\x51\x86\x14\x48\x00'),
+
+#character: 'l'
+0x006c : (6, 10, b'\x01\x82\x08\x20\x82\x08\x70\x00'),
+
+#character: 'm'
+0x006d : (6, 10, b'\x00\x00\x3c\xaa\xaa\xaa\xa8\x00'),
+
+#character: 'n'
+0x006e : (6, 10, b'\x00\x00\x3c\x8a\x28\xa2\x88\x00'),
+
+#character: 'o'
+0x006f : (6, 10, b'\x00\x00\x1c\x8a\x28\xa2\x70\x00'),
+
+#character: 'p'
+0x0070 : (6, 10, b'\x00\x00\x3c\x8a\x28\xbc\x82\x00'),
+
+#character: 'q'
+0x0071 : (6, 10, b'\x00\x00\x1e\x8a\x28\x9e\x08\x20'),
+
+#character: 'r'
+0x0072 : (6, 10, b'\x00\x00\x2e\xc2\x08\x20\x80\x00'),
+
+#character: 's'
+0x0073 : (6, 10, b'\x00\x00\x1e\x81\xc0\x82\xf0\x00'),
+
+#character: 't'
+0x0074 : (6, 10, b'\x00\x82\x1c\x20\x82\x08\x18\x00'),
+
+#character: 'u'
+0x0075 : (6, 10, b'\x00\x00\x22\x8a\x28\xa2\x78\x00'),
+
+#character: 'v'
+0x0076 : (6, 10, b'\x00\x00\x22\x89\x45\x08\x20\x00'),
+
+#character: 'w'
+0x0077 : (6, 10, b'\x00\x00\x22\x8a\xaa\xaa\x70\x00'),
+
+#character: 'x'
+0x0078 : (6, 10, b'\x00\x00\x22\x50\x82\x14\x88\x00'),
+
+#character: 'y'
+0x0079 : (6, 10, b'\x00\x00\x22\x8a\x28\x9e\x09\xc0'),
+
+#character: 'z'
+0x007a : (6, 10, b'\x00\x00\x3e\x10\x84\x20\xf8\x00'),
+
+#character: '{'
+0x007b : (6, 10, b'\x00\x62\x08\x40\x82\x08\x18\x00'),
+
+#character: '|'
+0x007c : (6, 10, b'\x00\x82\x08\x20\x82\x08\x20\x00'),
+
+#character: '}'
+0x007d : (6, 10, b'\x01\x81\x04\x08\x41\x04\x60\x00'),
+
+#character: '~'
+0x007e : (6, 10, b'\x4a\xa9\x00\x00\x00\x00\x00\x00'),
+
+#character: '°'
+0x00b0 : (5, 10, b'\x03\x94\xe0\x00\x00\x00\x00'),
+
+#character: 'Ё'
+0x0401 : (6, 10, b'\x50\x0f\xa0\x83\xc8\x20\xf8\x00'),
+
+#character: 'Ђ'
+0x0402 : (6, 10, b'\x00\x00\x00\x04\x39\xbc\x60\x00'),
+
+#character: 'Ѓ'
+0x0403 : (6, 10, b'\x00\x0c\xde\x31\xec\xc0\x00\x00'),
+
+#character: 'Њ'
+0x040a : (6, 10, b'\x00\x00\x86\x38\xe1\x82\x00\x00'),
+
+#character: 'Ћ'
+0x040b : (6, 10, b'\x00\x04\x18\x71\xc6\x10\x00\x00'),
+
+#character: 'Ќ'
+0x040c : (6, 10, b'\x00\x00\x0c\x7b\xf0\x00\x00\x00'),
+
+#character: 'Ў'
+0x040e : (6, 10, b'\x00\x00\x1e\x79\xe7\x80\x00\x00'),
+
+#character: 'Џ'
+0x040f : (6, 10, b'\x00\x00\x3f\x78\xc0\x00\x00\x00'),
+
+#character: 'А'
+0x0410 : (6, 10, b'\x01\xc8\xa2\x8b\xe8\xa2\x88\x00'),
+
+#character: 'Б'
+0x0411 : (6, 10, b'\x03\xc8\x20\xf2\x28\xa2\xf0\x00'),
+
+#character: 'В'
+0x0412 : (6, 10, b'\x03\xc8\xa2\xf2\x28\xa2\xf0\x00'),
+
+#character: 'Г'
+0x0413 : (6, 10, b'\x03\xe8\x20\x82\x08\x20\x80\x00'),
+
+#character: 'Д'
+0x0414 : (6, 10, b'\x00\xe4\x92\x49\x24\x92\xfe\x10'),
+
+#character: 'Е'
+0x0415 : (6, 10, b'\x03\xe8\x20\xf2\x08\x20\xf8\x00'),
+
+#character: 'Ж'
+0x0416 : (6, 10, b'\x02\xaa\xaa\x71\xca\xaa\xa8\x00'),
+
+#character: 'З'
+0x0417 : (6, 10, b'\x01\xc8\x82\x30\x20\xa2\x70\x00'),
+
+#character: 'И'
+0x0418 : (6, 10, b'\x02\x28\xa2\x9a\xac\xa2\x88\x00'),
+
+#character: 'Й'
+0x0419 : (6, 10, b'\x50\x88\xa2\x9a\xac\xa2\x88\x00'),
+
+#character: 'К'
+0x041a : (6, 10, b'\x02\x29\x28\xc3\x0a\x24\x88\x00'),
+
+#character: 'Л'
+0x041b : (6, 10, b'\x00\xe4\x92\x49\x24\x92\x88\x00'),
+
+#character: 'М'
+0x041c : (6, 10, b'\x02\x2d\xaa\xaa\x28\xa2\x88\x00'),
+
+#character: 'Н'
+0x041d : (6, 10, b'\x02\x28\xa2\xfa\x28\xa2\x88\x00'),
+
+#character: 'О'
+0x041e : (6, 10, b'\x01\xc8\xa2\x8a\x28\xa2\x70\x00'),
+
+#character: 'П'
+0x041f : (6, 10, b'\x03\xe8\xa2\x8a\x28\xa2\x88\x00'),
+
+#character: 'Р'
+0x0420 : (6, 10, b'\x03\xc8\xa2\x8b\xc8\x20\x80\x00'),
+
+#character: 'С'
+0x0421 : (6, 10, b'\x01\xc8\xa0\x82\x08\x22\x70\x00'),
+
+#character: 'Т'
+0x0422 : (6, 10, b'\x03\xe2\x08\x20\x82\x08\x20\x00'),
+
+#character: 'У'
+0x0423 : (6, 10, b'\x02\x28\xa2\x89\xe0\x82\x70\x00'),
+
+#character: 'Ф'
+0x0424 : (6, 10, b'\x21\xca\xaa\xaa\xaa\xaa\x70\x80'),
+
+#character: 'Х'
+0x0425 : (6, 10, b'\x02\x28\x94\x20\x85\x22\x88\x00'),
+
+#character: 'Ц'
+0x0426 : (6, 10, b'\x02\x28\xa2\x8a\x28\xa2\x7c\x10'),
+
+#character: 'Ч'
+0x0427 : (6, 10, b'\x02\x28\xa2\x89\xe0\x82\x08\x00'),
+
+#character: 'Ш'
+0x0428 : (6, 10, b'\x02\xaa\xaa\xaa\xaa\xaa\x78\x00'),
+
+#character: 'Щ'
+0x0429 : (6, 10, b'\x02\xaa\xaa\xaa\xaa\xaa\x7c\x10'),
+
+#character: 'Ъ'
+0x042a : (6, 10, b'\x03\x04\x1c\x49\x24\x92\x70\x00'),
+
+#character: 'Ы'
+0x042b : (6, 10, b'\x02\x28\xb2\xaa\xaa\xaa\xc8\x00'),
+
+#character: 'Ь'
+0x042c : (6, 10, b'\x01\x04\x1c\x49\x24\x92\x70\x00'),
+
+#character: 'Э'
+0x042d : (6, 10, b'\x01\xc8\x82\x38\x20\xa2\x70\x00'),
+
+#character: 'Ю'
+0x042e : (6, 10, b'\x02\x4a\xaa\xab\xaa\xaa\x90\x00'),
+
+#character: 'Я'
+0x042f : (6, 10, b'\x01\xe8\xa2\x89\xe2\x92\x88\x00'),
+
+#character: 'а'
+0x0430 : (6, 10, b'\x00\x00\x1c\x09\xe8\xa2\x78\x00'),
+
+#character: 'б'
+0x0431 : (6, 10, b'\x01\xc8\x3c\x8a\x28\xa2\xf0\x00'),
+
+#character: 'в'
+0x0432 : (6, 10, b'\x00\x0e\x24\x93\xc8\xa2\xf0\x00'),
+
+#character: 'г'
+0x0433 : (6, 10, b'\x00\x00\x3e\x82\x08\x20\x80\x00'),
+
+#character: 'д'
+0x0434 : (6, 10, b'\x00\x00\x1e\x8a\x28\x9e\x09\xc0'),
+
+#character: 'е'
+0x0435 : (6, 10, b'\x00\x00\x1c\x8b\xe8\x22\x70\x00'),
+
+#character: 'ж'
+0x0436 : (6, 10, b'\x00\x00\x2a\xa9\xca\xaa\xa8\x00'),
+
+#character: 'з'
+0x0437 : (6, 10, b'\x00\x00\x1c\x88\xc0\xa2\x70\x00'),
+
+#character: 'и'
+0x0438 : (6, 10, b'\x00\x00\x22\x8a\x28\xa2\x78\x00'),
+
+#character: 'й'
+0x0439 : (6, 10, b'\x01\x42\x22\x8a\x28\xa2\x78\x00'),
+
+#character: 'к'
+0x043a : (6, 10, b'\x00\x00\x12\x51\x86\x14\x48\x00'),
+
+#character: 'л'
+0x043b : (6, 10, b'\x00\x00\x0e\x49\x24\x92\x88\x00'),
+
+#character: 'м'
+0x043c : (6, 10, b'\x00\x00\x22\xda\xa8\xa2\x88\x00'),
+
+#character: 'н'
+0x043d : (6, 10, b'\x00\x00\x22\x8b\xe8\xa2\x88\x00'),
+
+#character: 'о'
+0x043e : (6, 10, b'\x00\x00\x1c\x8a\x28\xa2\x70\x00'),
+
+#character: 'п'
+0x043f : (6, 10, b'\x00\x00\x3e\x8a\x28\xa2\x88\x00'),
+
+#character: 'р'
+0x0440 : (6, 10, b'\x00\x00\x3c\x8a\x28\xbc\x82\x00'),
+
+#character: 'с'
+0x0441 : (6, 10, b'\x00\x00\x1c\x8a\x08\x22\x70\x00'),
+
+#character: 'т'
+0x0442 : (6, 10, b'\x00\x00\x3e\x20\x82\x08\x20\x00'),
+
+#character: 'у'
+0x0443 : (6, 10, b'\x00\x00\x22\x8a\x28\x9e\x09\xc0'),
+
+#character: 'ф'
+0x0444 : (6, 10, b'\x00\x02\x1c\xaa\xaa\xaa\x70\x80'),
+
+#character: 'х'
+0x0445 : (6, 10, b'\x00\x00\x22\x50\x82\x14\x88\x00'),
+
+#character: 'ц'
+0x0446 : (6, 10, b'\x00\x00\x22\x8a\x28\xa2\x7c\x10'),
+
+#character: 'ч'
+0x0447 : (6, 10, b'\x00\x00\x22\x8a\x27\x82\x08\x00'),
+
+#character: 'ш'
+0x0448 : (6, 10, b'\x00\x00\x2a\xaa\xaa\xaa\x78\x00'),
+
+#character: 'щ'
+0x0449 : (6, 10, b'\x00\x00\x2a\xaa\xaa\xaa\x7c\x10'),
+
+#character: 'ъ'
+0x044a : (6, 10, b'\x00\x00\x30\x41\xc4\x92\x70\x00'),
+
+#character: 'ы'
+0x044b : (6, 10, b'\x00\x00\x22\x8b\x2a\xaa\xc8\x00'),
+
+#character: 'ь'
+0x044c : (6, 10, b'\x00\x00\x10\x41\xc4\x92\x70\x00'),
+
+#character: 'э'
+0x044d : (6, 10, b'\x00\x00\x1c\x88\xe0\xa2\x70\x00'),
+
+#character: 'ю'
+0x044e : (6, 10, b'\x00\x00\x24\xaa\xae\xaa\x90\x00'),
+
+#character: 'я'
+0x044f : (6, 10, b'\x00\x00\x1e\x8a\x27\x8a\x48\x00'),
+
+#character: 'ё'
+0x0451 : (6, 10, b'\x01\x40\x1c\x8b\xe8\x22\x70\x00')
+
+}
