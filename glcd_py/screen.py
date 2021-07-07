@@ -25,7 +25,7 @@ class MainScreen(StdScreen):
         StdScreen.__init__(self, display)
 
     def refresh_data(self):
-        print(f"{type(self).__name__} refresh_data")
+        # print(type(self).__name__)
         sats = self._settings.gpsd_data.get('sats_valid')
         if isinstance(sats, int):
             self._sats = sats
@@ -57,30 +57,12 @@ class MainScreen(StdScreen):
             'Время:{:s}'.format(self._time_src),
             'Синхр:{:s}'.format(self._pps_src)]
 
-    # def EnterListMode(self):
-    #     print(f"{type(self).__name__} EnterListMode")
-    #     self.refresh_data()
-    #     tm = time.localtime()
-    #
-    #     self.strings = [
-    #         time.strftime("%T", tm),
-    #         time.strftime("%d.%m.%y", tm),
-    #         'Спутн:{:d}'.format(self._sats),
-    #         'Время:{:s}'.format(self._time_src),
-    #         'Синхр:{:s}'.format(self._pps_src)]
-    #
-    #     self.Draw()
-        # StdScreen.EnterListMode(self, strings)
-    #
-    # def EnterEditMode(self):
-    #     return
-    #
-    # def ExitEditMode(self):
-    #     return
+    def EnterEditMode(self):
+        pass
 
     def draw(self):
-        print(f"{type(self).__name__} draw")
-        print(self.strings)
+        # print(type(self).__name__)
+        # print(self.strings)
 
         self.GLCD.Clear()
 
@@ -109,7 +91,7 @@ class TimeScreen(StdScreen):
         self.CreateEditorMap(editor_strings)
 
     def refresh_data(self, *args):
-        print(f"{type(self).__name__} refresh_data")
+        # print(type(self).__name__)
 
         tm = time.localtime()
 
@@ -119,21 +101,22 @@ class TimeScreen(StdScreen):
         ]
 
     def ExitEditMode(self):
-        print(f"{type(self).__name__} ExitEditMode")
+        # verify_input_data
+        # print(type(self).__name__)
 
         sync_src = int(self._settings.main['sync_src'])
         if sync_src != linuxtools.GNSS_SRC_NONE:
-            message = [
+            self.message = [
                 'Не установлено!',
                 'Измените источник',
                 'синхронизации на:',
                 linuxtools.sync_sources[linuxtools.GNSS_SRC_NONE]
             ]
-            StdScreen.EnterMessageMode(self, message)
+            # super().EnterMessageMode()
             return False
 
         params = self.GetEditorParams()
-        print(params)
+        # print(params)
 
         errors = []
         try:
@@ -149,8 +132,8 @@ class TimeScreen(StdScreen):
             # StdScreen.ExitEditMode(self)
             return True
         else:
-            message = ['Неверный параметр'] + errors
-            StdScreen.EnterMessageMode(self, message)
+            self.message = ['Неверный параметр'] + errors
+            # super().EnterMessageMode()
             return False
 
 
@@ -173,7 +156,7 @@ class ZoneScreen(StdScreen):
         self.CreateEditorMap(editor_strings)
 
     def refresh_data(self):
-        print(f"{type(self).__name__} refresh_data")
+        # print(type(self).__name__)
 
         tm = time.localtime()
         self._tz = int(time.strftime("%z", tm)[:-2])
@@ -185,28 +168,6 @@ class ZoneScreen(StdScreen):
             'Табло КВ: {:+03d}'.format(self._tz_kv),
             'Табло RS: {:+03d}'.format(self._tz_rs)
         ]
-
-    # def EnterListMode(self):
-    #     self.refresh_data()
-    #
-    #     strings = [
-    #         'Станция: {:+}'.format(self._tz),
-    #         'Табло КВ: {:+}'.format(self._tz_kv),
-    #         'Табло RS: {:+}'.format(self._tz_rs)
-    #     ]
-    #
-    #     StdScreen.EnterListMode(self, strings)
-
-    # def EnterEditMode(self):
-    #     self.refresh_data()
-    #
-    #     self.strings = [
-    #         'Станция: [d{:+03d}]'.format(self._tz),
-    #         'Табло КВ: [d{:+03d}]'.format(self._tz_kv),
-    #         'Табло RS: [d{:+03d}]'.format(self._tz_rs)
-    #     ]
-    #
-    #     StdScreen.EnterEditMode(self)
 
     def ExitEditMode(self):
 
@@ -221,11 +182,11 @@ class ZoneScreen(StdScreen):
             errors.append('Табло RS')
 
         if not errors:
-            StdScreen.ExitEditMode(self)
+            # StdScreen.ExitEditMode(self)
             return True
         else:
-            strings = ['Неверный параметр'] + errors
-            StdScreen.EnterMessageMode(self, strings)
+            self.message = ['Неверный параметр'] + errors
+            # StdScreen.EnterMessageMode(self)
             return False
 
 
@@ -327,11 +288,11 @@ class NetScreen(StdScreen):
             errors.append('GW')
 
         if not errors:
-            StdScreen.ExitEditMode(self)
+            # StdScreen.ExitEditMode(self)
             return True
         else:
-            strings = ['Неверный параметр'] + errors
-            StdScreen.EnterMessageMode(self, strings)
+            self.message = ['Неверный параметр'] + errors
+            # StdScreen.EnterMessageMode(self)
             return False
 
 
@@ -536,7 +497,7 @@ class LCD:
 
         if keys:
             action = self.CurrentScreenObject.action(keys)
-            print('ACTION:', action)
+            # print('ACTION:', action)
             if action:
                 if 'rotate' in action:
                     if 'main' in action:

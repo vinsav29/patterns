@@ -1,4 +1,4 @@
-from __future__ import annotations
+# from __future__ import annotations
 from abc import ABC, abstractmethod
 import time
 
@@ -31,11 +31,11 @@ class Mode(ABC):
     """
 
     @property
-    def screen(self) -> StdScreen:
+    def screen(self):
         return self._screen
 
     @screen.setter
-    def screen(self, screen: StdScreen) -> None:
+    def screen(self, screen) -> None:
         self._screen = screen
 
     # @abstractmethod
@@ -43,15 +43,15 @@ class Mode(ABC):
     #     pass
 
     def reset_screenlist(self):
-        print('Abstract method reset_screenlist')
+        # print('Abstract method reset_screenlist')
         return 'rotate_main'
 
     def press_left(self):
-        print('Abstract method press left')
+        # print('Abstract method press left')
         return 'rotate_left'
 
     def press_right(self):
-        print('Abstract method press_right')
+        # print('Abstract method press_right')
         return 'rotate_right'
 
     def press_down(self):
@@ -72,38 +72,48 @@ class Mode(ABC):
 
 class ListMode(Mode):
     def __init__(self):
+        # print('List mode constructor')
+        # self.screen.refresh_data()
+        #
+        # self.screen.window_pos = 0
+        # self.screen.list_pos = 0
+        # self.screen.list_end = len(self.screen.strings) - 1
         pass
 
     def press_down(self):
-        print('press_down in Listmode')
+        # print('press_down in Listmode')
         if self.screen.list_pos < self.screen.list_end:
             self.screen.list_pos += 1
             if self.screen.list_pos > (self.screen.window_pos + 1):
                 self.screen.window_pos += 1
         self.screen.draw()
+        return 'no action'
 
     def press_up(self):
-        print('press_up in Listmode')
+        # print('press_up in Listmode')
         if self.screen.list_pos > 0:
             self.screen.list_pos -= 1
             if self.screen.list_pos < self.screen.window_pos:
                 self.screen.window_pos -= 1
         self.screen.draw()
+        return 'no action'
 
     def press_ok(self):
-        print('rising_ok in Listmode')
+        # print('rising_ok in Listmode')
         self.screen.EnterEditMode()     # empty for MainScreen
         self.screen.draw()
+        return 'no action'
 
     def event_sec(self):
         self.screen.refresh_data()
         self.screen.draw()
+        return 'no action'
 
     def draw(self):
-        print('draw in Listmode')
+        # print('draw in Listmode')
 
-        print(self.screen.list_pos, self.screen.list_end, self.screen.window_pos)
-        print(self.screen.strings)
+        # print(self.screen.list_pos, self.screen.list_end, self.screen.window_pos)
+        # print(self.screen.strings)
         cursor = ['  ', '  ']
 
         self.screen.GLCD.Clear()
@@ -136,24 +146,36 @@ class ListMode(Mode):
                 string = self.screen.strings[w]
                 self.screen.GLCD.DrawString(6, y, string)
 
-                print(cursor[n], string)
+                # print(cursor[n], string)
 
 
 class EditMode(Mode):
     def __init__(self):
+    #     if len(self.screen.strings) == 0:
+    #         return
+    #
+    #     self.screen.list_end = len(self.screen.EditModeLines) - 1
+    #
+    #     index = 0
+    #     for symbol in self.screen.EditModeMap:
+    #         if symbol[0] == self.screen.list_pos:
+    #             self.screen.editor_pos = index
+    #             break
+    #         index += 1
         pass
 
     def press_left(self):
-        print('press_left in EditMode')
+        # print('press_left in EditMode')
         if self.screen.editor_pos > 0:
             self.screen.editor_pos -= 1
             self.screen.list_pos = self.screen.EditModeMap[self.screen.editor_pos][0]
             if self.screen.list_pos < self.screen.window_pos:
                 self.screen.window_pos -= 1
         self.screen.draw()
+        return 'no action'
 
     def press_right(self):
-        print('press_right in EditMode')
+        # print('press_right in EditMode')
         end = len(self.screen.EditModeMap) - 1
         if self.screen.editor_pos < end:
             self.screen.editor_pos += 1
@@ -161,9 +183,10 @@ class EditMode(Mode):
             if self.screen.list_pos > (self.screen.window_pos + 1):
                 self.screen.window_pos += 1
         self.screen.draw()
+        return 'no action'
 
     def press_down(self):
-        print('press_down in EditMode')
+        # print('press_down in EditMode')
 
         y, x, type = self.screen.EditModeMap[self.screen.editor_pos]
         char = self.screen.strings[y][x]
@@ -186,9 +209,10 @@ class EditMode(Mode):
         self.screen.strings[y] = str[:x] + char + str[x + 1:]
 
         self.screen.draw()
+        return 'no action'
 
     def press_up(self):
-        print('press_up in EditMode')
+        # print('press_up in EditMode')
 
         y, x, type = self.screen.EditModeMap[self.screen.editor_pos]
         char = self.screen.strings[y][x]
@@ -211,20 +235,25 @@ class EditMode(Mode):
         self.screen.strings[y] = str[:x] + char + str[x + 1:]
 
         self.screen.draw()
+        return 'no action'
 
     def press_ok(self):
-        print('rising_ok in EditMode')
+        # print('rising_ok in EditMode')
         no_errors = self.screen.ExitEditMode()
+        # no_errors = self.screen.verify_data()
         if no_errors:
             self.screen.unsaved_params = True
-            self.screen.init()
+            self.screen.EnterListMode()
+        else:
+            self.screen.EnterMessageMode()
         self.screen.draw()
+        return 'no action'
 
     def draw(self):
-        print('draw in EditMode')
+        # print('draw in EditMode')
 
-        print(self.screen.list_pos, self.screen.list_end, self.screen.window_pos)
-        print(self.screen.strings)
+        # print(self.screen.list_pos, self.screen.list_end, self.screen.window_pos)
+        # print(self.screen.strings)
 
         self.screen.GLCD.Clear()
         self.screen.GLCD.SetFont(Terminus12m)
@@ -251,40 +280,47 @@ class EditMode(Mode):
                 string = self.screen.strings[w]
                 self.screen.GLCD.DrawStringSelect(6, y, string, cursor, cursor)
 
-                print(cursor, string)
+                # print(cursor, string)
 
 
 class MessageMode(Mode):
     def __init__(self):
+        # self.screen.msg_pos = 0
+        # self.screen.MessageLines = message
+        # self.screen.msg_end = len(message) - 1
         pass
 
     def press_down(self):
-        print('press_down in MessageMode')
+        # print('press_down in MessageMode')
         if self.screen.msg_pos < (self.screen.msg_end - 1):
             self.screen.msg_pos += 1
         self.screen.draw()
+        return 'no action'
 
     def press_up(self):
-        print('press_up in MessageMode')
+        # print('press_up in MessageMode')
         if self.screen.msg_pos > 0:
             self.screen.msg_pos -= 1
         self.screen.draw()
+        return 'no action'
 
     def press_left(self):
-        print('press_left in MessageMode')
-        self.screen.init()
+        # print('press_left in MessageMode')
+        self.screen.EnterListMode()
         self.screen.draw()
+        return 'no action'
 
     def press_ok(self):
-        print('rising_ok in MessageMode')
+        # print('rising_ok in MessageMode')
         self.screen.EnterEditMode()
         self.screen.draw()
+        return 'no action'
 
     def draw(self):
-        print('draw in MessageMode')
+        # print('draw in MessageMode')
 
-        print(self.screen.list_pos, self.screen.list_end, self.screen.window_pos)
-        print(self.screen.strings)
+        # print(self.screen.list_pos, self.screen.list_end, self.screen.window_pos)
+        # print(self.screen.strings)
 
         self.screen.GLCD.Clear()
         self.screen.GLCD.SetFont(Terminus12m)
@@ -300,14 +336,12 @@ class MessageMode(Mode):
             if w < len(self.screen.MessageLines):
                 string = self.screen.MessageLines[w]
                 self.screen.GLCD.DrawString(6, y, string)
-                print(string)
+                # print(string)
 
         if self.screen.msg_pos > 0:
             self.screen.GLCD.DrawChar(115, 11, CP_UP)
         if self.screen.msg_pos < (self.screen.msg_end - 1):
             self.screen.GLCD.DrawChar(115, 22, CP_DOWN)
-
-
 
 
 class StdScreen:
@@ -323,6 +357,7 @@ class StdScreen:
 
         self.editor_pos = 0
 
+        self.message = []
         self.msg_pos = 0
         self.msg_end = 0
 
@@ -343,6 +378,20 @@ class StdScreen:
         self.MessageLines = []
 
     def init(self):
+        # self.transition_to(ListMode())
+        # self.refresh_data()
+        #
+        # self.window_pos = 0
+        # self.list_pos = 0
+        # self.list_end = len(self.strings) - 1
+        self.EnterListMode()
+
+        return self
+
+    def refresh_data(self):
+        pass
+
+    def EnterListMode(self):
         self.transition_to(ListMode())
         self.refresh_data()
 
@@ -350,24 +399,8 @@ class StdScreen:
         self.list_pos = 0
         self.list_end = len(self.strings) - 1
 
-        return self
-
-    def refresh_data(self):
-        pass
-
-    # def EnterListMode(self, strings):
-        # self.Mode = MODE_LIST
-        # self.ListModeLines = Strings
-        # self.ListEnd = len(Strings) - 1
-        # self.Draw()
-
-    # def ExitListMode(self):
-    #     self.EditModeMap = []
-    #     self.EditModeLines = []
-    #     self.EditModeParams = []
-
     def EnterEditMode(self):
-        print('StdScreen EnterEditMode')
+        # print('StdScreen EnterEditMode')
         self.transition_to(EditMode())
 
         if len(self.strings) == 0:
@@ -382,22 +415,16 @@ class StdScreen:
                 break
             index += 1
 
-        # self.draw()
-
     def ExitEditMode(self):
         pass
 
-    def EnterMessageMode(self, message):
-        print('StdScreen EnterMessageMode')
+    def EnterMessageMode(self):
+        # print('StdScreen EnterMessageMode')
         self.transition_to(MessageMode())
 
         self.msg_pos = 0
-        self.MessageLines = message
-        self.msg_end = len(message) - 1
-
-    # def ExitMessageMode(self):
-    #     self.Mode = self.LastMode
-    #     self.MessageLines = []
+        self.MessageLines = self.message
+        self.msg_end = len(self.message) - 1
 
     def CreateEditorMap(self, strings):
         self.EditModeMap = []
@@ -446,7 +473,7 @@ class StdScreen:
             self.EditModeParams.append(line_params)
             self.EditModeLines.append(out)
             y_index += 1
-        print(self.EditModeMap, self.EditModeLines, self.EditModeParams)
+        # print(self.EditModeMap, self.EditModeLines, self.EditModeParams)
 
     def GetEditorParams(self):
         params_list = []
@@ -466,33 +493,33 @@ class StdScreen:
         Контекст позволяет изменять объект Состояния во время выполнения.
         """
 
-        print(f"Context {type(self).__name__}: Transition to {type(mode).__name__}")
+        # print(type(self).__name__, type(mode).__name__)
         self._mode = mode
         self._mode.screen = self
 
     def action(self, keys):
         if 'clamping_left' in keys:
-            print('clamping_left')
+            # print('clamping_left')
             return self._mode.reset_screenlist()
 
         if 'rising_left' in keys:
-            print('rising_left')
+            # print('rising_left')
             return self._mode.press_left()
 
         if 'rising_right' in keys:
-            print('rising_right')
+            # print('rising_right')
             return self._mode.press_right()
 
         if 'rising_down' in keys:
-            print('rising_down')
+            # print('rising_down')
             return self._mode.press_down()
 
         if 'rising_up' in keys:
-            print('rising_up')
+            # print('rising_up')
             return self._mode.press_up()
 
         if 'rising_ok' in keys:
-            print('rising_ok')
+            # print('rising_ok')
             return self._mode.press_ok()
 
         if 'rising_sec' in keys:
